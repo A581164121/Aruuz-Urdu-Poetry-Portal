@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aruuz - اردو شعری پورٹل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Urdu:wght@400;700&display=swap');
+      
+      /* Font-face rules for professional Urdu typography */
+      @font-face {
+        font-family: 'MehrNastaleeq';
+        src: local('Mehr Nastaleeq'), local('MehrNastaleeq');
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'nafees-naskh-regular';
+        src: local('Nafees Naskh'), local('NafeesNaskh');
+        font-display: swap;
+      }
+
+      :root {
+        --primary-color: #453f3c;
+        --accent-color: #8c7b75;
+      }
+
+      body {
+        font-family: 'MehrNastaleeq', 'Noto Nastaliq Urdu', serif;
+        background-color: #f4f1ea;
+        color: #333;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .urdu-text {
+        font-family: 'MehrNastaleeq', 'Noto Nastaliq Urdu', serif;
+      }
+
+      .naskh-text {
+        font-family: 'nafees-naskh-regular', 'Noto Sans Urdu', sans-serif;
+      }
+
+      /* User Requested CSS Classes */
+      .urdu-huge {
+        width: 100%;
+      }
+      
+      .urdu-large {
+        line-height: 2.5 !important;
+        direction: rtl;
+        text-align: right;
+        font-family: 'MehrNastaleeq', 'Jameel Noori Nastaleeq', serif;
+      }
+
+      .urdu-medium {
+        font-family: 'MehrNastaleeq', serif;
+        font-size: 1.25rem;
+      }
+
+      .urdu-small {
+        font-family: 'nafees-naskh-regular', 'Noto Sans Urdu', sans-serif;
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      .urdu-naskh-medium {
+        font-family: 'nafees-naskh-regular', 'Noto Sans Urdu', sans-serif;
+        font-size: 1.15rem;
+        line-height: 2.2;
+      }
+
+      .main-raised2 {
+        border-radius: 8px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1);
+        border: 1px solid #f0f0f0;
+        background-color: #fff;
+      }
+
+      /* Chat Message Styles from User Request */
+      .user-msg {
+        background-color: #e3f2fd;
+        border-radius: 12px 12px 0 12px;
+        padding: 10px 15px;
+        margin-bottom: 12px;
+        text-align: right;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border: 1px solid #bbdefb;
+      }
+
+      .ai-msg {
+        background-color: #ffffff;
+        border-radius: 12px 12px 12px 0;
+        padding: 10px 15px;
+        margin-bottom: 12px;
+        text-align: left;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border: 1px solid #eeeeee;
+      }
+
+      /* User Requested: Chat Input Styling */
+      #chatInput {
+        color: white !important;
+        background-color: #453f3c;
+        border: 1px solid #7070b1;
+        transition: all 0.2s ease;
+      }
+
+      #chatInput::placeholder {
+        color: #cccccc;
+        opacity: 1;
+      }
+
+      #chatInput:focus {
+        color: white !important;
+        background-color: #453f3c;
+        outline: none;
+        box-shadow: 0 0 8px rgba(112, 112, 177, 0.6);
+        border-color: #8c7b75;
+      }
+
+      .padding-20 {
+        padding: 20px;
+      }
+
+      /* Professional Bootstrap-style Callouts */
+      .bs-callout-urdu {
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 1px solid #eee;
+        border-right-width: 5px;
+        border-radius: 4px;
+        text-align: right;
+      }
+      .bs-callout-urdu-info { border-right-color: #5bc0de; background-color: #f0faff; }
+      .bs-callout-urdu-success { border-right-color: #5cb85c; background-color: #f0f9f0; }
+      .bs-callout-urdu-primary { border-right-color: #453f3c; background-color: #f9f9f9; }
+
+      .main-raised {
+        margin: -80px 1.5rem 2rem;
+        border-radius: 8px;
+        box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        background: #fff;
+        z-index: 10;
+        position: relative;
+      }
+
+      .footer {
+        margin-top: auto;
+        background-color: var(--primary-color);
+        width: 100%;
+        color: white;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #453f3c;
+        border-radius: 4px;
+      }
+
+      @keyframes pulse-light {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+      .loading-ai {
+        animation: pulse-light 1.5s infinite ease-in-out;
+      }
+
+      .custom-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #453f3c #f1f1f1;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              aruuz: {
+                primary: '#453f3c',
+                accent: '#8c7b75',
+                light: '#f4f1ea'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+        "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
