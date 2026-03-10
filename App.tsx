@@ -76,38 +76,36 @@ const App: React.FC = () => {
     setAnalysis(null);
 
     try {
-      // If generate_full, we don't necessarily need a meter first if the user didn't write anything
-      let meterName = "";
+      // Step 1: Analyze Meter
       if (cleanText) {
         const meterResult = await analyzePoetryMeter(cleanText);
         setAnalysis(meterResult);
-        meterName = meterResult?.name || "";
       }
 
+      // Staggering: Add a small delay between calls to avoid bursting the API rate limit
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      // Step 2: Perform Literary Action
       const tajResult = await analyzePoetryLiterary(cleanText || "مجھے ایک غزل لکھ کر دیں", workMode);
       setProcessResult(tajResult);
-    } catch (err) {
-      setProcessResult("ایرر: ڈیٹا زیادہ ہے یا کنکشن منقطع ہو گیا ہے۔");
+    } catch (err: any) {
+      console.error("App Processing Error:", err);
+      setProcessResult("ایرر: سرور اس وقت جواب نہیں دے پا رہا۔ براہ کرم کچھ سیکنڈز بعد دوبارہ کوشش کریں۔");
     } finally {
       setLoadingProcess(false);
     }
   };
 
-  // Improved Chat Logic: Handles verse updates via conversational instructions
   const handleSendChat = async () => {
     const userMsg = chatInput.trim();
     if (userMsg === "") return;
 
-    // صارف کا میسج دکھانا (user-msg)
     setChatMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setChatInput(''); 
 
     try {
-      // سرور (AI Service) کو ڈیٹا بھیجنا، اب بحر اور موجودہ کلام کی تفصیل کے ساتھ
       const currentBahar = analysis?.name || "";
       const response = await sendPoetryChatMessage(userMsg, userInput, currentBahar);
-      
-      // استاد (AI) کا جواب دکھانا (ai-msg)
       setChatMessages(prev => [...prev, { role: 'ustad', text: response }]);
     } catch (error) {
       setChatMessages(prev => [...prev, { role: 'ustad', text: 'رابطہ منقطع ہو گیا ہے۔ معذرت، میں ابھی جواب نہیں دے پا رہا۔', isError: true }]);
